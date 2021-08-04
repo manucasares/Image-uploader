@@ -1,10 +1,7 @@
 import React from 'react';
 
-import {
-    ChooseFileBtn,
-    Dropdown,
-    Image } from './Uploader.elements';
-import { Container, Typography } from 'shared';
+import { ChooseFileBtn, Dropdown } from './Uploader.elements';
+import { Container, Image, Typography, PrimaryBtn } from 'shared';
 import { theme } from 'styles/themes';
 
 export const Uploader = () => {
@@ -25,6 +22,7 @@ export const Uploader = () => {
                 <Image
                     src="images/image.svg"
                     alt="Mountain with clouds drawing"
+                    size="35%"
                 />
 
                 <Typography
@@ -42,9 +40,9 @@ export const Uploader = () => {
                 Or
             </Typography>
 
-            <ChooseFileBtn>
+            <PrimaryBtn>
                 Choose a file
-            </ChooseFileBtn>
+            </PrimaryBtn>
         </Container>
     )
 }
