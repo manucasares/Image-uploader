@@ -1,12 +1,8 @@
 
-import { Button } from './Button';
 import { Container } from './Container';
-import { Input } from './Input';
-import { Spinner } from './Spinner';
+import { Typography } from './Typography';
 
 export {
-    Button,
     Container,
-    Input,
-    Spinner
+    Typography
 }
