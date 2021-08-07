@@ -13,7 +13,7 @@ export const Bar = styled.div`
     bottom: 0;
     left: 0;
     min-width: 5%;
-    /* width: 30%; */
+    width: ${ ( { width } ) => width || '5%' };
     max-width: 100%;
     border-radius: 4px;
     background: ${ ( { theme } ) => theme.colors.blue };

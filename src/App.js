@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
-import { Provider } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
 
-import { store } from './store/store';
 import { theme } from 'styles/themes';
 import { Uploader } from 'App/Uploader/Uploader';
 import { Uploading } from 'App/Uploading/Uploading';
@@ -11,25 +9,25 @@ import { Uploading } from 'App/Uploading/Uploading';
 export const App = () => {
     
     const [ uploading, setUploading ] = useState( false );
+    const [ image, setImage ] = useState( null );
 
     return (
         <ThemeProvider theme={ theme }>
-            <Provider store={ store }>
+            {
+                ( !uploading ) &&
+                    <Uploader
+                        setUploading={ setUploading }
+                        image={ image }
+                        setImage={ setImage }
+                    />
+            }
 
-                {
-                    ( !uploading ) &&
-                        <Uploader
-                            setUploading={ setUploading }
-                        />
-                }
+            {
+                ( uploading ) &&
+                    <Uploading image={ image } />
+            }
 
-                {
-                    ( uploading ) &&
-                        <Uploading />
-                }
-
-                {/* <Uploaded /> */}
-            </Provider>
+            {/* <Uploaded /> */}
         </ThemeProvider>
     )
 }

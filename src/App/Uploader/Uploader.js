@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState, useRef } from 'react';
+import React, { useEffect, useCallback, useRef } from 'react';
 import { useDropzone } from 'react-dropzone'
 
 import { DragDropText, Dropzone, InputFile } from './Uploader.elements';
@@ -7,29 +7,28 @@ import { theme } from 'styles/themes';
 
 const validExtensions = [ 'jpeg', 'jpg', 'png', 'svg' ];
 
-export const Uploader = ( { setUploading } ) => {
+export const Uploader = ( { setUploading, image, setImage } ) => {
 
-    const [ file, setFile ] = useState( null );
     const inputFileRef = useRef();
     
     const onDrop = useCallback( acceptedFiles => {
         // Se ejecutará cuando se dejen caer archivos
-        setFile( acceptedFiles[ 0 ] );
-    }, [] );
+        setImage( acceptedFiles[ 0 ] );
+    }, [ setImage ] );
 
     const handleInputFile = ( e ) => {
         // Se ejecutará cuando se seleccionen imagenes
-        setFile( e.target.files[ 0 ] );
+        setImage( e.target.files[ 0 ] );
     }
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone( { onDrop } );
 
     useEffect(() => {
         
-        if ( !file ) return;
+        if ( !image ) return;
 
         // Verificamos que las extensiones sean válidas
-        const splitted = file.name.split( '.' );
+        const splitted = image.name.split( '.' );
         const extension = splitted[ splitted.length - 1 ];
 
         if ( !validExtensions.includes( extension ) ) {
@@ -40,7 +39,7 @@ export const Uploader = ( { setUploading } ) => {
 
         setUploading( true );
 
-    }, [ file ] );
+    }, [ image, setUploading ] );
 
     return (
         <Container> 
