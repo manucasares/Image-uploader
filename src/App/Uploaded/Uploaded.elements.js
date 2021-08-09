@@ -10,7 +10,8 @@ export const Tick = styled.i.attrs( () => ({
 `;
 
 export const ImageUploaded = styled.section`
-    background: url( 'https://cdn2.salud180.com/sites/default/files/styles/medium/public/coffeeofficenote_0.jpg' )
+    background: url( ${ ( { imageUrl } ) => imageUrl };
+     )
                 no-repeat center center / cover;
     height: 15rem;
     border-radius: 15px;
@@ -20,8 +21,8 @@ export const Link = styled.div`
     position: relative;
 `;
 
-export const Input = styled.input.attrs( props => ({
-    value: 'https://cdn2.salud180.com/sites/default/files/styles/medium/public/coffeeofficenote_0.jpg',
+export const Input = styled.input.attrs( ( { imageUrl } ) => ({
+    value: imageUrl,
     disabled: true
 }) )`
     width: 100%;
@@ -41,4 +42,12 @@ export const CopyBtn = styled( PrimaryBtn )`
     right: 2px;
     padding: 0 1rem;
     border-radius: 3px 15px 15px 3px;
-`
+`;
+
+export const BackToUploader = styled.p`
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    text-decoration: underline;
+    cursor: pointer;
+`;

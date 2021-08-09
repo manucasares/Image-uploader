@@ -8,7 +8,7 @@ import { Bar, UploadingBar } from './Uploading.elements';
 
 const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/dalpbowt0/image/upload';
 
-export const Uploading = ( { image } ) => {
+export const Uploading = ( { image, setSectionShown, setImageUrl, setError, setImage } ) => {
 
     const barRef = useRef();
     const [ progressPercentage, setProgressPercentage ] = useState( 0 );
@@ -33,15 +33,24 @@ export const Uploading = ( { image } ) => {
                     const progressPercentage = ( loaded * 100 ) / total;
                     setProgressPercentage( progressPercentage );
                 },
-            } )
+            } );
 
+            // Error al uploadear
+            if ( ( res.statusText !== 'OK' ) ) {
+                setImage( null );
+                setError( 'There was a mistake uploading your image...' );
+                setSectionShown( 'uploader' );
+                return;
+            }
             
-
+            setError( '' );
+            setSectionShown( 'uploaded' );
+            setImageUrl( res.data.secure_url );
         }
 
         uploadImage();
 
-    }, [ image ] );
+    }, [ image, setImageUrl, setSectionShown, setError, setImage ] );
 
     return (
         <Container>
@@ -58,7 +67,6 @@ export const Uploading = ( { image } ) => {
                     width={ progressPercentage + '%' }
                 />
             </UploadingBar>
-
         </Container>
     )
 }

@@ -3,10 +3,6 @@ import styled from 'styled-components';
 export const Container = styled.div`
     display: grid;
     grid-gap: 2rem;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     width: min(75%, 600px);
     background: #fff;
     padding: 2rem;

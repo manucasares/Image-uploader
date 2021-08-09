@@ -1,33 +1,60 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ThemeProvider } from 'styled-components';
 
-import { theme } from 'styles/themes';
+import { useNotification } from 'hooks/useNotification';
 import { Uploader } from 'App/Uploader/Uploader';
 import { Uploading } from 'App/Uploading/Uploading';
-// import { Uploaded } from 'App/Uploaded/Uploaded';
+import { Uploaded } from 'App/Uploaded/Uploaded';
+import { Notification } from 'shared';
+import { theme } from 'styles/themes';
 
 export const App = () => {
     
-    const [ uploading, setUploading ] = useState( false );
+    const [ notificationRef, showNotification, setShowNotification ] = useNotification();    
+    const [ sectionShown, setSectionShown ] = useState( 'uploader' );
     const [ image, setImage ] = useState( null );
+    const [ imageUrl, setImageUrl ] = useState( '' );
+    const [ error, setError ] = useState( '' );
+
+    useEffect(() => {
+        if ( error ) {
+            setShowNotification( true );
+        }
+    }, [ error, setShowNotification ] );
 
     return (
         <ThemeProvider theme={ theme }>
-            {
-                ( !uploading ) &&
-                    <Uploader
-                        setUploading={ setUploading }
-                        image={ image }
-                        setImage={ setImage }
-                    />
-            }
+            { ( sectionShown === 'uploader' ) &&
+                <Uploader
+                    setSectionShown={ setSectionShown }
+                    image={ image }
+                    setImage={ setImage }
+                    setError={ setError }
+                /> }
 
-            {
-                ( uploading ) &&
-                    <Uploading image={ image } />
-            }
+            { ( sectionShown === 'uploading' ) &&
+                <Uploading
+                    image={ image }
+                    setImage={ setImage }
+                    setSectionShown={ setSectionShown }
+                    setImageUrl={ setImageUrl }
+                    setError={ setError }
+                /> }
 
-            {/* <Uploaded /> */}
+            { ( sectionShown === 'uploaded' ) &&
+                <Uploaded
+                    imageUrl={ imageUrl }
+                    setSectionShown={ setSectionShown }
+                    setImage={ setImage }
+                /> }
+
+            { ( showNotification ) &&
+                <Notification
+                    ref={ notificationRef }
+                    bg_color={ theme.colors.error }
+                >
+                    { error }
+                </Notification> }
         </ThemeProvider>
     )
 }

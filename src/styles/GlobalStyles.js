@@ -9,8 +9,14 @@ export const GlobalStyles = createGlobalStyle`
         padding: 0;
     }
 
-    html, body {
+    html, body, #root {
         min-height: 100vh;
+    }
+
+    #root {
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     body {

@@ -6,6 +6,8 @@ export const theme = {
         dark_blue: '#146DE1',
         light_blue: '#A1C6F7',
         green: '#219653',
+        success: '#36d37a',
+        error: '#f33800',
         soft_light_blue: '#F6F8FB',
         soft_gray: '#E0E0E0',
         dark: '#4F4F4F',

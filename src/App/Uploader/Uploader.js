@@ -1,15 +1,18 @@
-import React, { useEffect, useCallback, useRef } from 'react';
+import React, { useEffect, useCallback, useRef, useState } from 'react';
 import { useDropzone } from 'react-dropzone'
 
+import { useNotification } from 'hooks/useNotification';
 import { DragDropText, Dropzone, InputFile } from './Uploader.elements';
-import { Container, Image, Typography, PrimaryBtn } from 'shared';
+import { Container, Image, Typography, PrimaryBtn, Notification } from 'shared';
 import { theme } from 'styles/themes';
 
 const validExtensions = [ 'jpeg', 'jpg', 'png', 'svg' ];
 
-export const Uploader = ( { setUploading, image, setImage } ) => {
+export const Uploader = ( { setSectionShown, image, setImage, setError } ) => {
 
     const inputFileRef = useRef();
+    const [ extension, setExtension ] = useState( null );
+    const [ notificationRef, showNotification, setShowNotification ] = useNotification();    
     
     const onDrop = useCallback( acceptedFiles => {
         // Se ejecutará cuando se dejen caer archivos
@@ -32,14 +35,15 @@ export const Uploader = ( { setUploading, image, setImage } ) => {
         const extension = splitted[ splitted.length - 1 ];
 
         if ( !validExtensions.includes( extension ) ) {
-            // TODO: alerta de extension inválida
-            console.log('invalid extension')
+            setShowNotification( true );
+            setExtension( extension );
             return;
         }
 
-        setUploading( true );
+        setError( null );
+        setSectionShown( 'uploading' );
 
-    }, [ image, setUploading ] );
+    }, [ image, setSectionShown, setError, setShowNotification ] );
 
     return (
         <Container> 
@@ -91,6 +95,14 @@ export const Uploader = ( { setUploading, image, setImage } ) => {
             >
                 Choose a file
             </PrimaryBtn>
+
+            { ( showNotification ) &&
+                <Notification
+                    ref={ notificationRef }
+                    bg_color={ theme.colors.error }
+                >
+                    { extension } is not a valid extension!
+                </Notification> }
         </Container>
     )
 }
